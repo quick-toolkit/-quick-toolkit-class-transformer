@@ -9,7 +9,7 @@ module.exports = {
     filename: "[name].js",
     library: {
       type: 'umd',
-      name: 'QuickerJSHttp',
+      name: 'ClassTransformer',
     }
   },
   module: {
