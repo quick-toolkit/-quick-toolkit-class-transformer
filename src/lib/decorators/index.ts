@@ -22,3 +22,5 @@
 
 export * from './typed';
 export * from './typed-array';
+export * from './typed-set';
+export * from './typed-map';

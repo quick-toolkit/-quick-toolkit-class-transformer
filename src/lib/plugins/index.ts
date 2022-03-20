@@ -27,3 +27,4 @@ export * from './to-boolean-plugin';
 export * from './to-array-plugin';
 export * from './to-set-plugin';
 export * from './to-map-plugin';
+export * from './to-object-plugin';

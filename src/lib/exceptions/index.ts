@@ -21,3 +21,5 @@
  */
 
 export * from './transformer-exception';
+export * from './custom-transform-exception';
+export * from './validate-exception';
