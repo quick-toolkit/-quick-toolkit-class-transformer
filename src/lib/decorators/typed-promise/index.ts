@@ -22,46 +22,37 @@
 
 import { ClassConstructor, PropertyMirror } from '@quick-toolkit/class-mirror';
 import { TypeMirror } from '../../type-mirror';
-import {
-  EnumRule,
-  FloatRule,
-  IntegerRule,
-  RangeRule,
-  Rule,
-  TypedMetadata,
-  TypedMetadataOptions,
-} from '../../typed-metadata';
+import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
 import { TypedDecorate } from '../../typed-decorate';
 
 /**
- * Typed decorator
+ * TypedPromise decorator
  * @param options
  */
-export function Typed<T extends object = any>(
-  options?: TypedMetadataOptions<T>
+export function TypedPromise<T extends object = any>(
+  options?: Omit<TypedMetadataOptions<Promise<T>>, 'rules'>
 ): PropertyDecorator;
 /**
- * Typed decorator
+ * TypePromise decorator
  * @param type
  * @param options
  */
-export function Typed<T extends object = any>(
+export function TypedPromise<T extends object = any>(
   type?: TypeMirror<T> | ClassConstructor<T>,
-  options?: Omit<TypedMetadataOptions<T>, 'elementRules'> & TypedOps<T>
+  options?: Omit<TypedMetadataOptions<Promise<T>>, 'rules'>
 ): PropertyDecorator;
 /**
  * 实现方法
- * @param args
  * @constructor
  */
-export function Typed(...args: any[]): PropertyDecorator {
+export function TypedPromise(...args: any[]): PropertyDecorator {
   const [a, b = {}] = args;
   if (args.length === 1) {
     if (typeof a === 'function' || a instanceof TypeMirror) {
       return PropertyMirror.createDecorator(
         new TypedDecorate(
           TypedMetadata.create(
-            a instanceof TypeMirror ? a : TypeMirror.createObjectMirror(a),
+            a instanceof TypeMirror ? a : TypeMirror.createPromiseMirror(a),
             {}
           )
         )
@@ -69,7 +60,7 @@ export function Typed(...args: any[]): PropertyDecorator {
     } else {
       return PropertyMirror.createDecorator(
         new TypedDecorate(
-          TypedMetadata.create(TypeMirror.createObjectMirror(Object), a)
+          TypedMetadata.create(TypeMirror.createObjectMirror(Promise), a)
         )
       );
     }
@@ -77,78 +68,9 @@ export function Typed(...args: any[]): PropertyDecorator {
   return PropertyMirror.createDecorator(
     new TypedDecorate(
       TypedMetadata.create(
-        a instanceof TypeMirror ? a : TypeMirror.createObjectMirror(a),
+        a instanceof TypeMirror ? a : TypeMirror.createPromiseMirror(a),
         b
       )
     )
   );
 }
-
-export interface TypedOps<T> {
-  rules?: T extends Number
-    ?
-        | NumberValidateTypes
-        | ObjectNumberValidateType
-        | ObjectNumberValidateType[]
-    : T extends String
-    ? StringValidateTypes | Rule | Rule[]
-    : never;
-}
-
-type NumberValidateTypes = 'Integer' | 'Float' | 'range';
-
-type ObjectNumberValidateType = IntegerRule | FloatRule | RangeRule | EnumRule;
-
-type StringValidateTypes =
-  | 'Base32'
-  | 'Base58'
-  | 'Base64'
-  | 'BIC'
-  | 'BtcAddress'
-  | 'DataURI'
-  | 'EthereumAddress'
-  | 'FullWidth'
-  | 'HexColor'
-  | 'HSL'
-  | 'Hexadecimal'
-  | 'HalfWidth'
-  | 'IBAN'
-  | 'ISIN'
-  | 'ISO4217'
-  | 'ISRC'
-  | 'JSON'
-  | 'JWT'
-  | 'LatLong'
-  | 'Locale'
-  | 'Lowercase'
-  | 'MongoId'
-  | 'MD5'
-  | 'MagnetURI'
-  | 'MimeType'
-  | 'Port'
-  | 'RFC3339'
-  | 'SemVer'
-  | 'Slug'
-  | 'SurrogatePair'
-  | 'Uppercase'
-  | 'VariableWidth'
-  | 'length'
-  | 'Email'
-  | 'range'
-  | 'MobilePhone'
-  | 'Float'
-  | 'Integer'
-  | 'Currency'
-  | 'Date'
-  | 'Decimal'
-  | 'FQDN'
-  | 'IP'
-  | 'IPRange'
-  | 'IdentityCard'
-  | 'ISSN'
-  | 'MACAddress'
-  | 'Numeric'
-  | 'PassportNumber'
-  | 'RgbColor'
-  | 'Url'
-  | 'UUID';

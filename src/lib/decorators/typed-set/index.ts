@@ -22,7 +22,12 @@
 
 import { ClassConstructor, PropertyMirror } from '@quick-toolkit/class-mirror';
 import { TypeMirror } from '../../type-mirror';
-import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
+import {
+  LengthRule,
+  RangeRule,
+  TypedMetadata,
+  TypedMetadataOptions,
+} from '../../typed-metadata';
 import { TypedDecorate } from '../../typed-decorate';
 
 /**
@@ -30,7 +35,7 @@ import { TypedDecorate } from '../../typed-decorate';
  * @param options
  */
 export function TypedSet<T extends object = any>(
-  options?: TypedMetadataOptions<T>
+  options?: Omit<TypedMetadataOptions<Set<T>>, 'rules'> & TypedSetOps
 ): PropertyDecorator;
 /**
  * TypedSet decorator
@@ -39,7 +44,7 @@ export function TypedSet<T extends object = any>(
  */
 export function TypedSet<T extends object = any>(
   type: ClassConstructor<T> | TypeMirror<T>,
-  options?: TypedMetadataOptions<Set<T>>
+  options?: Omit<TypedMetadataOptions<Set<T>>, 'rules'> & TypedSetOps
 ): PropertyDecorator;
 /**
  * 实现方法
@@ -73,4 +78,8 @@ export function TypedSet(...args: any[]): PropertyDecorator {
       )
     )
   );
+}
+
+export interface TypedSetOps {
+  rules?: LengthRule | RangeRule | Array<LengthRule | RangeRule>;
 }

@@ -113,7 +113,7 @@ export interface EnumRule extends RuleType {
   /**
    * 枚举值
    */
-  enums: Array<string | number | boolean | null | undefined>;
+  enums: Array<string | number | boolean | null | undefined | ClassConstructor>;
 }
 
 export interface LengthRule extends RuleType {

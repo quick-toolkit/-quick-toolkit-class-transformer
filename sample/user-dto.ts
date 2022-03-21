@@ -1,13 +1,12 @@
-import { Typed, TypedArray } from '../src';
-import { TypedMap } from '../src/lib/decorators/typed-map';
-import { TypedSet } from '../src/lib/decorators/typed-set';
+import { Typed, TypedArray, TypedMap, TypedSet } from '../src';
 
 /**
  * @class RoleDto
  */
 class RoleDto {
-  @Typed({
+  @Typed(Number, {
     required: true,
+    rules: 'Integer',
   })
   public id: number;
 
@@ -21,9 +20,14 @@ class RoleDto {
  * @class UserDto
  */
 export class UserDto {
-  @Typed({
+  @Typed(Number, {
     required: true,
-    rules: { type: 'MongoId' },
+    rules: [
+      {
+        type: 'Enum',
+        enums: [1, 2, 3],
+      },
+    ],
   })
   public id: number;
 
@@ -45,6 +49,7 @@ export class UserDto {
 
   @Typed(String, {
     required: true,
+    rules: [],
   })
   public type: 'boy' | 'girl';
 

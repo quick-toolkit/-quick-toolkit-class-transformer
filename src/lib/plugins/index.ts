@@ -28,3 +28,4 @@ export * from './to-array-plugin';
 export * from './to-set-plugin';
 export * from './to-map-plugin';
 export * from './to-object-plugin';
+export * from './to-promise-plugin';
