@@ -137,7 +137,7 @@ export class ToSetPlugin extends TransformPlugin {
           };
 
           if (metadata && metadata.options && metadata.options.elementRules) {
-            options.rules = metadata.options.rules;
+            options.rules = metadata.options.elementRules;
           }
 
           try {

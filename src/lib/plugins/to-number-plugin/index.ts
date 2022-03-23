@@ -46,7 +46,8 @@ export class ToNumberPlugin extends TransformPlugin {
         {
           type: 'Number',
           validator: (value): boolean =>
-            typeof value === 'number' && !isNaN(Number(value)),
+            (typeof value === 'number' || value instanceof Number) &&
+            !isNaN(Number(value)),
         },
       ];
       // 设置手动添加的规则

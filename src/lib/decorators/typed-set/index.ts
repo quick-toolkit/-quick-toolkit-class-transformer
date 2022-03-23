@@ -25,17 +25,24 @@ import { TypeMirror } from '../../type-mirror';
 import {
   LengthRule,
   RangeRule,
+  Rule,
   TypedMetadata,
   TypedMetadataOptions,
 } from '../../typed-metadata';
 import { TypedDecorate } from '../../typed-decorate';
+import {
+  NumberValidateTypes,
+  ObjectNumberValidateType,
+  StringValidateTypes,
+} from '../typed';
 
 /**
  * TypedSet decorator
  * @param options
  */
 export function TypedSet<T extends object = any>(
-  options?: Omit<TypedMetadataOptions<Set<T>>, 'rules'> & TypedSetOps
+  options?: Omit<TypedMetadataOptions<Set<T>>, 'rules' | 'elementRules'> &
+    TypedSetOps<T>
 ): PropertyDecorator;
 /**
  * TypedSet decorator
@@ -44,7 +51,8 @@ export function TypedSet<T extends object = any>(
  */
 export function TypedSet<T extends object = any>(
   type: ClassConstructor<T> | TypeMirror<T>,
-  options?: Omit<TypedMetadataOptions<Set<T>>, 'rules'> & TypedSetOps
+  options?: Omit<TypedMetadataOptions<Set<T>>, 'rules' | 'elementRules'> &
+    TypedSetOps<T>
 ): PropertyDecorator;
 /**
  * 实现方法
@@ -80,6 +88,15 @@ export function TypedSet(...args: any[]): PropertyDecorator {
   );
 }
 
-export interface TypedSetOps {
+export interface TypedSetOps<T> {
   rules?: LengthRule | RangeRule | Array<LengthRule | RangeRule>;
+  elementRules?: T extends String
+    ? StringValidateTypes | StringValidateTypes[] | Rule | Rule[]
+    : T extends Number
+    ?
+        | NumberValidateTypes
+        | ObjectNumberValidateType
+        | NumberValidateTypes[]
+        | ObjectNumberValidateType[]
+    : never;
 }

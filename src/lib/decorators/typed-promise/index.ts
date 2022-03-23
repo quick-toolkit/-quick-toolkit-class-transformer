@@ -22,15 +22,27 @@
 
 import { ClassConstructor, PropertyMirror } from '@quick-toolkit/class-mirror';
 import { TypeMirror } from '../../type-mirror';
-import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
+import {
+  LengthRule,
+  RangeRule,
+  Rule,
+  TypedMetadata,
+  TypedMetadataOptions,
+} from '../../typed-metadata';
 import { TypedDecorate } from '../../typed-decorate';
+import {
+  NumberValidateTypes,
+  ObjectNumberValidateType,
+  StringValidateTypes,
+} from '../typed';
 
 /**
  * TypedPromise decorator
  * @param options
  */
 export function TypedPromise<T extends object = any>(
-  options?: Omit<TypedMetadataOptions<Promise<T>>, 'rules'>
+  options?: Omit<TypedMetadataOptions<Promise<T>>, 'rules' | 'elementRules'> &
+    TypedPromiseOps<T>
 ): PropertyDecorator;
 /**
  * TypePromise decorator
@@ -39,7 +51,8 @@ export function TypedPromise<T extends object = any>(
  */
 export function TypedPromise<T extends object = any>(
   type?: TypeMirror<T> | ClassConstructor<T>,
-  options?: Omit<TypedMetadataOptions<Promise<T>>, 'rules'>
+  options?: Omit<TypedMetadataOptions<Promise<T>>, 'rules' | 'elementRules'> &
+    TypedPromiseOps<T>
 ): PropertyDecorator;
 /**
  * 实现方法
@@ -73,4 +86,17 @@ export function TypedPromise(...args: any[]): PropertyDecorator {
       )
     )
   );
+}
+
+export interface TypedPromiseOps<T> {
+  rules?: LengthRule | RangeRule | Array<LengthRule | RangeRule>;
+  elementRules?: T extends String
+    ? StringValidateTypes | StringValidateTypes[] | Rule | Rule[]
+    : T extends Number
+    ?
+        | NumberValidateTypes
+        | ObjectNumberValidateType
+        | NumberValidateTypes[]
+        | ObjectNumberValidateType[]
+    : never;
 }

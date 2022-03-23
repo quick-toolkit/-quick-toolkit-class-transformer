@@ -25,17 +25,24 @@ import { TypeMirror } from '../../type-mirror';
 import {
   LengthRule,
   RangeRule,
+  Rule,
   TypedMetadata,
   TypedMetadataOptions,
 } from '../../typed-metadata';
 import { TypedDecorate } from '../../typed-decorate';
+import {
+  NumberValidateTypes,
+  ObjectNumberValidateType,
+  StringValidateTypes,
+} from '../typed';
 
 /**
  * TypedArray decorator
  * @param options
  */
 export function TypedArray<T extends object = any>(
-  options?: Omit<TypedMetadataOptions<T[]>, 'rules'> & TypedArrayOps
+  options?: Omit<TypedMetadataOptions<T[]>, 'rules' | 'elementRules'> &
+    TypedArrayOps<T>
 ): PropertyDecorator;
 /**
  * TypedArray decorator
@@ -44,7 +51,8 @@ export function TypedArray<T extends object = any>(
  */
 export function TypedArray<T extends object = any>(
   type?: TypeMirror<T> | ClassConstructor<T>,
-  options?: Omit<TypedMetadataOptions<T[]>, 'rules'> & TypedArrayOps
+  options?: Omit<TypedMetadataOptions<T[]>, 'rules' | 'elementRules'> &
+    TypedArrayOps<T>
 ): PropertyDecorator;
 /**
  * 实现方法
@@ -80,6 +88,15 @@ export function TypedArray(...args: any[]): PropertyDecorator {
   );
 }
 
-export interface TypedArrayOps {
+export interface TypedArrayOps<T> {
   rules?: LengthRule | RangeRule | Array<LengthRule | RangeRule>;
+  elementRules?: T extends String
+    ? StringValidateTypes | StringValidateTypes[] | Rule | Rule[]
+    : T extends Number
+    ?
+        | NumberValidateTypes
+        | ObjectNumberValidateType
+        | NumberValidateTypes[]
+        | ObjectNumberValidateType[]
+    : never;
 }

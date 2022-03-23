@@ -95,11 +95,15 @@ export interface TypedOps<T> {
     : never;
 }
 
-type NumberValidateTypes = 'Integer' | 'Float' | 'range';
+export type NumberValidateTypes = 'Integer' | 'Float' | 'range';
 
-type ObjectNumberValidateType = IntegerRule | FloatRule | RangeRule | EnumRule;
+export type ObjectNumberValidateType =
+  | IntegerRule
+  | FloatRule
+  | RangeRule
+  | EnumRule;
 
-type StringValidateTypes =
+export type StringValidateTypes =
   | 'Base32'
   | 'Base58'
   | 'Base64'

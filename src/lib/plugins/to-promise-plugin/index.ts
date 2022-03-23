@@ -29,6 +29,7 @@ import {
   ValidateExceptionFields,
 } from '../../exceptions';
 import { Utils } from '../../utils';
+import { TypedMetadataOptions } from '../../typed-metadata';
 
 /**
  * Promise 串转换插件
@@ -63,13 +64,23 @@ export class ToPromisePlugin extends TransformPlugin {
   public transform(values: Promise<any>): Promise<any> {
     values = this.beforeTransform(values);
     this.validator(values);
-    const { elementType, field } = this.typeMirror;
+    const { elementType, metadata, field } = this.typeMirror;
     const typeMirror: TypeMirror = elementType();
     const exceptions: ValidateException[] = [];
     const fieldExceptions: ValidateExceptionFields = {};
 
     // 如果有子类型
     if (typeMirror) {
+      const options: TypedMetadataOptions = {};
+      typeMirror.metadata = {
+        type: typeMirror,
+        options,
+      };
+
+      if (metadata && metadata.options && metadata.options.elementRules) {
+        options.rules = metadata.options.elementRules;
+      }
+
       values = new Promise((resolve, reject) => {
         typeMirror.field = field;
         typeMirror.parent = this.typeMirror;
