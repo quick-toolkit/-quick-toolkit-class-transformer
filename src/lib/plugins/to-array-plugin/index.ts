@@ -23,7 +23,7 @@
 import { TransformPlugin } from '../../transform-plugin';
 import { TypeMirror } from '../../type-mirror';
 import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 import { IValidator, validate } from '../../validate';
 import {
   TransformerException,
@@ -134,7 +134,7 @@ export class ToArrayPlugin extends TransformPlugin {
         };
 
         if (metadata && metadata.options && metadata.options.elementRules) {
-          options.rules = metadata.options.rules;
+          options.rules = metadata.options.elementRules;
         }
 
         try {

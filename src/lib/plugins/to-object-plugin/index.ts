@@ -81,6 +81,14 @@ export class ToObjectPlugin extends TransformPlugin {
       allDecorates.forEach((decorate) => {
         const { metadata } = decorate;
         if (metadata) {
+          const { options } = metadata;
+          if (options) {
+            const { alias } = options;
+            // 从别名取参数
+            if (alias && values[alias] !== undefined) {
+              value = values[alias];
+            }
+          }
           const _subType = metadata.type;
           if (_subType) {
             _subType.field = typeMirror.field

@@ -206,4 +206,65 @@ export class Utils {
       typeof value.finally === 'function'
     );
   };
+
+  /**
+   * Object => Map
+   * @param value
+   */
+  public static objectToMap<T extends {} = {}>(value: T): Map<PropertyKey, T> {
+    const map = new Map();
+    Object.keys(value).forEach((key) => {
+      map.set(key, value[key as keyof T]);
+    });
+
+    return map;
+  }
+
+  /**
+   * array => set
+   * @param values
+   */
+  public static arrayToSet<T>(values: T[]): Set<T> {
+    return new Set<T>(values);
+  }
+
+  /**
+   * set => array
+   * @param values
+   */
+  public static setToArray<T>(values: Set<T>): T[] {
+    return Array.from(values);
+  }
+
+  /**
+   * str => number
+   * @param values
+   */
+  public static stringToNumber(values: string): number {
+    return Number(values);
+  }
+
+  /**
+   * number => string
+   * @param values
+   */
+  public static numberToString(values: number): string {
+    return String(values);
+  }
+
+  /**
+   * string => Date
+   * @param values
+   */
+  public static stringToDate(values: string): Date {
+    return new Date(values);
+  }
+
+  /**
+   * number => Date
+   * @param values
+   */
+  public static numberToDate(values: number): Date {
+    return new Date(values);
+  }
 }

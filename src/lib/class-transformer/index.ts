@@ -122,14 +122,14 @@ export class ClassTransformer {
    */
   public transform<T extends object>(
     type: ClassConstructor<T> | TypeMirror<T>,
-    values: any
+    values: Partial<Record<keyof T, T[keyof T] | any>>
   ): T {
     const _type =
       type instanceof TypeMirror ? type : TypeMirror.createObjectMirror(type);
     const Plugin: TransformPluginConstructor =
       allPlugins.get(_type.type()) || ToObjectPlugin;
     values = new Plugin(this, _type).transform(values);
-    return values;
+    return values as T;
   }
 }
 

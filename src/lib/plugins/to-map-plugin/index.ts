@@ -122,7 +122,7 @@ export class ToMapPlugin extends TransformPlugin {
     const newValue = new Map<PropertyKey, any>();
     // 如果有子类型
     if (typeMirror) {
-      values.forEach((value, key, map) => {
+      values.forEach((value, key) => {
         const newTypeMirror = TypeMirror.from(
           typeMirror.type,
           typeMirror.elementType
@@ -136,7 +136,7 @@ export class ToMapPlugin extends TransformPlugin {
         };
 
         if (metadata && metadata.options && metadata.options.elementRules) {
-          options.rules = metadata.options.rules;
+          options.rules = metadata.options.elementRules;
         }
 
         try {
