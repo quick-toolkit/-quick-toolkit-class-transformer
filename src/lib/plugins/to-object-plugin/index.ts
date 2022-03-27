@@ -28,7 +28,7 @@ import {
 } from '@quick-toolkit/class-mirror';
 import { TypedDecorate } from '../../typed-decorate';
 import { Utils } from '../../utils';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 import {
   TransformerException,
   ValidateExceptionFields,
@@ -36,7 +36,7 @@ import {
 import { validate } from '../../validate';
 
 /**
- * 字符串转换插件
+ * Object转换插件
  */
 export class ToObjectPlugin extends TransformPlugin {
   public static type = Object;

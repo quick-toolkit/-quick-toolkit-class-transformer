@@ -31,7 +31,7 @@ import {
 } from '../../exceptions';
 
 /**
- * Array串转换插件
+ * Array转换插件
  */
 export class ToArrayPlugin extends TransformPlugin {
   public static type = Array;

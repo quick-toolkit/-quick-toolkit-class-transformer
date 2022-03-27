@@ -25,10 +25,10 @@ import { TransformPlugin } from '../../transform-plugin';
 import { IValidator, validate } from '../../validate';
 import validator from 'validator';
 import { TypedMetadata } from '../../typed-metadata';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 
 /**
- * 字符串转换插件
+ * String转换插件
  */
 export class ToStringPlugin extends TransformPlugin {
   public static type = String;

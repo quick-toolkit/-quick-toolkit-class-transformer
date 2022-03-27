@@ -23,7 +23,7 @@
 import { TransformPlugin } from '../../transform-plugin';
 import { TypeMirror } from '../../type-mirror';
 import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 import { IValidator, validate } from '../../validate';
 import {
   TransformerException,
@@ -31,7 +31,7 @@ import {
 } from '../../exceptions';
 
 /**
- * Set串转换插件
+ * Set转换插件
  */
 export class ToSetPlugin extends TransformPlugin {
   public static type = Set;
