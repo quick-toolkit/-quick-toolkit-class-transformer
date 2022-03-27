@@ -25,7 +25,7 @@ import { TransformPlugin } from '../../transform-plugin';
 import { validate } from '../../validate';
 
 /**
- * 字符串转换插件
+ * Date转换插件
  */
 export class ToDatePlugin extends TransformPlugin {
   /**

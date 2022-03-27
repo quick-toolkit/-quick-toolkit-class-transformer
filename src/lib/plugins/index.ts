@@ -29,3 +29,4 @@ export * from './to-set-plugin';
 export * from './to-map-plugin';
 export * from './to-object-plugin';
 export * from './to-promise-plugin';
+export * from './to-any-plugin';

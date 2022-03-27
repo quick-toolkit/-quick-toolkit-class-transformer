@@ -32,7 +32,7 @@ import { Utils } from '../../utils';
 import { TypedMetadataOptions } from '../../typed-metadata';
 
 /**
- * Promise 串转换插件
+ * Promise转换插件
  */
 export class ToPromisePlugin extends TransformPlugin {
   public static type = Promise;
