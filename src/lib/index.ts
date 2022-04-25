@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
+export * from './any';
 export * from './class-transformer';
 export * from './decorators';
-export * from './exceptions';
 export * from './exception';
+export * from './exceptions';
 export * from './plugins';
 export * from './transform-plugin';
 export * from './type-mirror';
