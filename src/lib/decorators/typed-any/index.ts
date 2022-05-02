@@ -22,15 +22,7 @@
 
 import { PropertyMirror } from '@quick-toolkit/class-mirror';
 import { TypeMirror } from '../../type-mirror';
-import {
-  EnumRule,
-  FloatRule,
-  IntegerRule,
-  RangeRule,
-  Rule,
-  TypedMetadata,
-  TypedMetadataOptions,
-} from '../../typed-metadata';
+import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
 import { TypedDecorate } from '../../typed-decorate';
 import { Any } from '../../any';
 
@@ -38,7 +30,9 @@ import { Any } from '../../any';
  * Typed decorator
  * @param options
  */
-export function Typed(options: { required?: boolean } = {}): PropertyDecorator {
+export function Typed(
+  options: { required?: boolean; nullable?: boolean } = {}
+): PropertyDecorator {
   return PropertyMirror.createDecorator(
     new TypedDecorate(
       TypedMetadata.create(
@@ -48,76 +42,3 @@ export function Typed(options: { required?: boolean } = {}): PropertyDecorator {
     )
   );
 }
-
-export interface TypedOps<T> {
-  rules?: T extends Number
-    ?
-        | NumberValidateTypes
-        | ObjectNumberValidateType
-        | ObjectNumberValidateType[]
-    : T extends String
-    ? StringValidateTypes | Rule | Rule[]
-    : never;
-}
-
-export type NumberValidateTypes = 'Integer' | 'Float' | 'range';
-
-export type ObjectNumberValidateType =
-  | IntegerRule
-  | FloatRule
-  | RangeRule
-  | EnumRule;
-
-export type StringValidateTypes =
-  | 'Base32'
-  | 'Base58'
-  | 'Base64'
-  | 'BIC'
-  | 'BtcAddress'
-  | 'DataURI'
-  | 'EthereumAddress'
-  | 'FullWidth'
-  | 'HexColor'
-  | 'HSL'
-  | 'Hexadecimal'
-  | 'HalfWidth'
-  | 'IBAN'
-  | 'ISIN'
-  | 'ISO4217'
-  | 'ISRC'
-  | 'JSON'
-  | 'JWT'
-  | 'LatLong'
-  | 'Locale'
-  | 'Lowercase'
-  | 'MongoId'
-  | 'MD5'
-  | 'MagnetURI'
-  | 'MimeType'
-  | 'Port'
-  | 'RFC3339'
-  | 'SemVer'
-  | 'Slug'
-  | 'SurrogatePair'
-  | 'Uppercase'
-  | 'VariableWidth'
-  | 'length'
-  | 'Email'
-  | 'range'
-  | 'MobilePhone'
-  | 'Float'
-  | 'Integer'
-  | 'Currency'
-  | 'Date'
-  | 'Decimal'
-  | 'FQDN'
-  | 'IP'
-  | 'IPRange'
-  | 'IdentityCard'
-  | 'ISSN'
-  | 'MACAddress'
-  | 'Numeric'
-  | 'PassportNumber'
-  | 'RgbColor'
-  | 'Url'
-  | 'UUID';

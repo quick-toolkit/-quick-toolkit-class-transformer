@@ -44,7 +44,7 @@ export class ToPromisePlugin extends TransformPlugin {
     // 验证必须
     this.validateRequired(fieldValue);
     if (fieldValue !== undefined) {
-      const { field } = this.typeMirror;
+      const { field, metadata } = this.typeMirror;
       // 先验证类型 系统规则
       const iValidators: IValidator[] = [
         {
@@ -52,6 +52,14 @@ export class ToPromisePlugin extends TransformPlugin {
           validator: (value): boolean => Utils.isPromise(value),
         },
       ];
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       // 验证
       validate(field, fieldValue, iValidators);
     }

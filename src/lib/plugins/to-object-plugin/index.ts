@@ -46,8 +46,16 @@ export class ToObjectPlugin extends TransformPlugin {
    */
   public validator(fieldValue: any): void {
     this.validateRequired(fieldValue);
-    const { field } = this.typeMirror;
+    const { field, metadata } = this.typeMirror;
     if (fieldValue !== undefined) {
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       validate(field, fieldValue, [
         {
           type: 'Object',

@@ -35,8 +35,16 @@ export class ToBooleanPlugin extends TransformPlugin {
    */
   public validator(fieldValue: string): void {
     this.validateRequired(fieldValue);
-    const { field } = this.typeMirror;
+    const { field, metadata } = this.typeMirror;
     if (fieldValue !== undefined) {
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       validate(field, fieldValue, [
         {
           type: 'Boolean',

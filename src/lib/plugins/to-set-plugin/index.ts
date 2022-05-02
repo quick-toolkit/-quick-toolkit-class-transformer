@@ -51,12 +51,13 @@ export class ToSetPlugin extends TransformPlugin {
           validator: (value): boolean => value instanceof Set,
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
-
           rules.forEach((rule) => {
             switch (rule.type) {
               case 'length':
@@ -101,6 +102,9 @@ export class ToSetPlugin extends TransformPlugin {
             }
           });
         }
+      }
+      if (nullable && fieldValue === null) {
+        return;
       }
       // 验证
       validate(field, fieldValue, iValidators);
