@@ -25,3 +25,4 @@ __exportStar(require("./typed-decorate"), exports);
 __exportStar(require("./typed-metadata"), exports);
 __exportStar(require("./utils"), exports);
 __exportStar(require("./validate"), exports);
+__exportStar(require("./any"), exports);
