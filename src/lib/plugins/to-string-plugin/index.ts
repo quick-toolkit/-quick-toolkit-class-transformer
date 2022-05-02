@@ -25,10 +25,10 @@ import { TransformPlugin } from '../../transform-plugin';
 import { IValidator, validate } from '../../validate';
 import validator from 'validator';
 import { TypedMetadata } from '../../typed-metadata';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 
 /**
- * 字符串转换插件
+ * String转换插件
  */
 export class ToStringPlugin extends TransformPlugin {
   public static type = String;
@@ -49,10 +49,12 @@ export class ToStringPlugin extends TransformPlugin {
             typeof value === 'string' || value instanceof String,
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
           rules.forEach((rule) => {
             switch (rule.type) {
@@ -434,6 +436,9 @@ export class ToStringPlugin extends TransformPlugin {
             }
           });
         }
+      }
+      if (nullable && fieldValue === null) {
+        return;
       }
       // 验证
       validate(field, fieldValue, iValidators);

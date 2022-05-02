@@ -20,48 +20,25 @@
  * SOFTWARE.
  */
 
-import { Utils } from '../../utils';
-import { TransformPlugin } from '../../transform-plugin';
-import { validate } from '../../validate';
+import { PropertyMirror } from '@quick-toolkit/class-mirror';
+import { TypeMirror } from '../../type-mirror';
+import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
+import { TypedDecorate } from '../../typed-decorate';
+import { Any } from '../../any';
 
 /**
- * Boolean转换插件
+ * Typed decorator
+ * @param options
  */
-export class ToBooleanPlugin extends TransformPlugin {
-  public static type = Boolean;
-
-  /**
-   * 类型验证
-   */
-  public validator(fieldValue: string): void {
-    this.validateRequired(fieldValue);
-    const { field, metadata } = this.typeMirror;
-    if (fieldValue !== undefined) {
-      if (
-        metadata &&
-        metadata.options &&
-        metadata.options.nullable &&
-        fieldValue === null
-      ) {
-        return;
-      }
-      validate(field, fieldValue, [
-        {
-          type: 'Boolean',
-          validator: (values: any): boolean =>
-            values instanceof Boolean || typeof values === 'boolean',
-        },
-      ]);
-    }
-  }
-
-  /**
-   * 转换成实例
-   * @param values
-   */
-  public transform(values: any): boolean {
-    values = this.beforeTransform(values);
-    this.validator(values);
-    return Utils.toBoolean(values);
-  }
+export function Typed(
+  options: { required?: boolean; nullable?: boolean } = {}
+): PropertyDecorator {
+  return PropertyMirror.createDecorator(
+    new TypedDecorate(
+      TypedMetadata.create(
+        TypeMirror.createObjectMirror(Any),
+        options as TypedMetadataOptions
+      )
+    )
+  );
 }

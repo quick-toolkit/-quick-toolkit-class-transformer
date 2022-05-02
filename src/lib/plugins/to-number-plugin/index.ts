@@ -25,10 +25,10 @@ import { TransformPlugin } from '../../transform-plugin';
 import { IValidator, validate } from '../../validate';
 import validator from 'validator';
 import { TypedMetadata } from '../../typed-metadata';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 
 /**
- * 字符串转换插件
+ * Number转换插件
  */
 export class ToNumberPlugin extends TransformPlugin {
   public static type = Number;
@@ -50,10 +50,12 @@ export class ToNumberPlugin extends TransformPlugin {
             !isNaN(Number(value)),
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
           rules.forEach((rule) => {
             if (typeof rule === 'object' && rule !== null) {
@@ -107,6 +109,9 @@ export class ToNumberPlugin extends TransformPlugin {
             }
           });
         }
+      }
+      if (nullable && fieldValue === null) {
+        return;
       }
       // 验证
       validate(field, fieldValue, iValidators);

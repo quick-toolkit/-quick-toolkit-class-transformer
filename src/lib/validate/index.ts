@@ -1,4 +1,4 @@
-import { ValidateException } from '../exceptions/validate-exception';
+import { ValidateException } from '../exceptions';
 
 /**
  * 字段验证

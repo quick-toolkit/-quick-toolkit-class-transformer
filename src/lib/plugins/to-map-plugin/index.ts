@@ -23,7 +23,7 @@
 import { TransformPlugin } from '../../transform-plugin';
 import { TypeMirror } from '../../type-mirror';
 import { TypedMetadata, TypedMetadataOptions } from '../../typed-metadata';
-import { ValidateException } from '../../exceptions/validate-exception';
+import { ValidateException } from '../../exceptions';
 import { IValidator, validate } from '../../validate';
 import {
   TransformerException,
@@ -31,7 +31,7 @@ import {
 } from '../../exceptions';
 
 /**
- * Map串转换插件
+ * Map转换插件
  */
 export class ToMapPlugin extends TransformPlugin {
   public static type = Map;
@@ -51,10 +51,12 @@ export class ToMapPlugin extends TransformPlugin {
           validator: (value): boolean => value instanceof Map,
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
           rules.forEach((rule) => {
             switch (rule.type) {
@@ -101,6 +103,9 @@ export class ToMapPlugin extends TransformPlugin {
             }
           });
         }
+      }
+      if (nullable && fieldValue === null) {
+        return;
       }
       // 验证
       validate(field, fieldValue, iValidators);

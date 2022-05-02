@@ -25,7 +25,7 @@ import { TransformPlugin } from '../../transform-plugin';
 import { validate } from '../../validate';
 
 /**
- * 字符串转换插件
+ * Date转换插件
  */
 export class ToDatePlugin extends TransformPlugin {
   /**
@@ -37,9 +37,17 @@ export class ToDatePlugin extends TransformPlugin {
    * 类型验证
    */
   public validator(fieldValue: string): void {
-    const { field } = this.typeMirror;
+    const { field, metadata } = this.typeMirror;
     this.validateRequired(fieldValue);
     if (fieldValue !== undefined) {
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       validate(field, fieldValue, [
         {
           type: 'Date',
