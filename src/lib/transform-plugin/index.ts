@@ -23,8 +23,7 @@
 import { ClassConstructor } from '@quick-toolkit/class-mirror';
 import { TypeMirror } from '../type-mirror';
 import { ClassTransformer } from '../class-transformer';
-import { CustomTransformException } from '../exceptions/custom-transform-exception';
-import { ValidateException } from '../exceptions/validate-exception';
+import { CustomTransformException, ValidateException } from '../exceptions';
 
 /**
  * @abstract
@@ -92,11 +91,8 @@ export abstract class TransformPlugin {
         const { options } = metadata;
         if (options) {
           const { transform } = options;
-          if (transform) {
-            const newValue = transform(fieldValue);
-            if (newValue !== undefined) {
-              fieldValue = newValue;
-            }
+          if (transform && typeof transform === 'function') {
+            fieldValue = transform(fieldValue);
           }
         }
       }

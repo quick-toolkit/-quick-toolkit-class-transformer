@@ -323,7 +323,7 @@ export interface TypedMetadataOptions<T = any> {
    * 转换函数
    * @param values
    */
-  transform?: (values: any) => T;
+  transform?: (values: any) => T | undefined;
   /**
    * 是否可为null 默认false
    */
