@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransformPlugin = void 0;
-var custom_transform_exception_1 = require("../exceptions/custom-transform-exception");
-var validate_exception_1 = require("../exceptions/validate-exception");
+var exceptions_1 = require("../exceptions");
 var TransformPlugin = (function () {
     function TransformPlugin(transformer, typeMirror) {
         this.transformer = transformer;
@@ -20,7 +19,7 @@ var TransformPlugin = (function () {
                         ? required
                         : "The field \"".concat(field, "\" expected is required but received a ").concat(String(fieldValue), "\".");
                     if (!isRequired) {
-                        throw validate_exception_1.ValidateException.create({
+                        throw exceptions_1.ValidateException.create({
                             field: field,
                             fieldValue: fieldValue,
                             message: message,
@@ -40,18 +39,15 @@ var TransformPlugin = (function () {
                 var options = metadata.options;
                 if (options) {
                     var transform = options.transform;
-                    if (transform) {
-                        var newValue = transform(fieldValue);
-                        if (newValue !== undefined) {
-                            fieldValue = newValue;
-                        }
+                    if (transform && typeof transform === 'function') {
+                        fieldValue = transform(fieldValue);
                     }
                 }
             }
             return fieldValue;
         }
         catch (e) {
-            throw custom_transform_exception_1.CustomTransformException.create({
+            throw exceptions_1.CustomTransformException.create({
                 field: field,
                 fieldValue: fieldValue,
                 message: "The field \"".concat(field, "\" custom transform exception.\r\n").concat(e.message),
