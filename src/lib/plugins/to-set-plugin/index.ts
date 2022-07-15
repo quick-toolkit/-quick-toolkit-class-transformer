@@ -114,9 +114,10 @@ export class ToSetPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): any[] {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): any[] {
+    values = this.beforeTransform(values, allValues);
     const originValues = values;
     this.validator(values);
     const { elementType, metadata, field } = this.typeMirror;
@@ -145,7 +146,7 @@ export class ToSetPlugin extends TransformPlugin {
           }
 
           try {
-            return this.transformer.transform(newTypeMirror, x);
+            return this.transformer.transform(newTypeMirror, x, values);
           } catch (e) {
             if (e instanceof ValidateException) {
               exceptions.push(e);

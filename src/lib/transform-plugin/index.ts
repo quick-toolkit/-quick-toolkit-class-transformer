@@ -44,7 +44,7 @@ export abstract class TransformPlugin {
 
   abstract validator(values: any): any;
 
-  abstract transform(values: any): any;
+  abstract transform(values: any, allValues: any): any;
 
   /**
    * 验证是否为必须
@@ -80,8 +80,9 @@ export abstract class TransformPlugin {
   /**
    * 前置转换，使用元数据的转换函数
    * @param fieldValue 字段值
+   * @param allValues
    */
-  public beforeTransform<T = any>(fieldValue: any): T {
+  public beforeTransform<T = any>(fieldValue: any, allValues: any): T {
     if (fieldValue === undefined) {
       return fieldValue;
     }
@@ -92,7 +93,7 @@ export abstract class TransformPlugin {
         if (options) {
           const { transform } = options;
           if (transform && typeof transform === 'function') {
-            fieldValue = transform(fieldValue);
+            fieldValue = transform(fieldValue, allValues);
           }
         }
       }

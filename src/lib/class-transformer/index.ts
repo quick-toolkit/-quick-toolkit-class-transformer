@@ -27,7 +27,7 @@ import {
 } from '@quick-toolkit/class-mirror';
 import { TransformPluginConstructor } from '../transform-plugin';
 import * as plugins from '../plugins';
-import { ToObjectPlugin } from '../plugins/to-object-plugin';
+import { ToObjectPlugin } from '../plugins';
 import { TypeMirror } from '../type-mirror';
 
 /**
@@ -119,16 +119,18 @@ export class ClassTransformer {
    * 数参数并转化为数据类型
    * @param type
    * @param values 转化的参数
+   * @param allValues
    */
   public transform<T extends object>(
     type: ClassConstructor<T> | TypeMirror<T>,
-    values: Partial<Record<keyof T, T[keyof T] | any>>
+    values: Partial<Record<keyof T, T[keyof T] | any>>,
+    allValues?: any
   ): T {
     const _type =
       type instanceof TypeMirror ? type : TypeMirror.createObjectMirror(type);
     const Plugin: TransformPluginConstructor =
       allPlugins.get(_type.type()) || ToObjectPlugin;
-    values = new Plugin(this, _type).transform(values);
+    values = new Plugin(this, _type).transform(values, allValues);
     return values as T;
   }
 }

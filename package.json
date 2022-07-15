@@ -57,7 +57,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@quick-toolkit/class-mirror": "^1.0.2",
+    "@quick-toolkit/class-mirror": "^1.0.3",
     "@types/validator": "^13.7.1",
     "async-validator": "^4.0.7",
     "validator": "^13.7.0"

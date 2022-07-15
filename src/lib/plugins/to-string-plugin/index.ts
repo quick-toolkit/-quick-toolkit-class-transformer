@@ -448,9 +448,10 @@ export class ToStringPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): string {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): string {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     return Utils.toString(values);
   }
