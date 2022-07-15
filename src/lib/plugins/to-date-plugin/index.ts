@@ -37,9 +37,17 @@ export class ToDatePlugin extends TransformPlugin {
    * 类型验证
    */
   public validator(fieldValue: string): void {
-    const { field } = this.typeMirror;
+    const { field, metadata } = this.typeMirror;
     this.validateRequired(fieldValue);
     if (fieldValue !== undefined) {
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       validate(field, fieldValue, [
         {
           type: 'Date',
@@ -53,9 +61,10 @@ export class ToDatePlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): Date | undefined {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): Date | undefined {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     return Utils.toDate(values);
   }

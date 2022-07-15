@@ -32,3 +32,4 @@ export * from './typed-decorate';
 export * from './typed-metadata';
 export * from './utils';
 export * from './validate';
+export * from './any';

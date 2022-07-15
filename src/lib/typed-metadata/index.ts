@@ -316,10 +316,6 @@ export interface TypedMetadataOptions<T = any> {
    */
   elementRules?: Rule | Rule[] | string | string[];
   /**
-   * 字段是否必须
-   */
-  required?: string | true;
-  /**
    * 字段描述
    */
   description?: string;
@@ -327,5 +323,13 @@ export interface TypedMetadataOptions<T = any> {
    * 转换函数
    * @param values
    */
-  transform?: (values: any) => T;
+  transform?: (values: any, allValues: any) => T | undefined;
+  /**
+   * 是否可为null 默认false
+   */
+  nullable?: boolean;
+  /**
+   * 字段是否必须，非必须则允许undefined 默认允许, 为string时required为true，同时作为验证消息
+   */
+  required?: string | true;
 }

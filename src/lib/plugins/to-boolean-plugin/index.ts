@@ -35,8 +35,16 @@ export class ToBooleanPlugin extends TransformPlugin {
    */
   public validator(fieldValue: string): void {
     this.validateRequired(fieldValue);
-    const { field } = this.typeMirror;
+    const { field, metadata } = this.typeMirror;
     if (fieldValue !== undefined) {
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       validate(field, fieldValue, [
         {
           type: 'Boolean',
@@ -50,9 +58,10 @@ export class ToBooleanPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): boolean {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): boolean {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     return Utils.toBoolean(values);
   }

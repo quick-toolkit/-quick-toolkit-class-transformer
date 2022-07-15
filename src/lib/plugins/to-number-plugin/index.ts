@@ -50,10 +50,12 @@ export class ToNumberPlugin extends TransformPlugin {
             !isNaN(Number(value)),
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
           rules.forEach((rule) => {
             if (typeof rule === 'object' && rule !== null) {
@@ -108,6 +110,9 @@ export class ToNumberPlugin extends TransformPlugin {
           });
         }
       }
+      if (nullable && fieldValue === null) {
+        return;
+      }
       // 验证
       validate(field, fieldValue, iValidators);
     }
@@ -116,9 +121,10 @@ export class ToNumberPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): number | undefined {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): number | undefined {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     return Utils.toNumber(values);
   }

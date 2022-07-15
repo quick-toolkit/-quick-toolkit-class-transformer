@@ -78,10 +78,12 @@ describe('index.spec.ts', () => {
   });
 
   it('should ToIntArraySample 1', () => {
-    const res = transformer.transform(ToIntArraySample, {});
+    const res = transformer.transform(ToIntArraySample, {
+      userIds: null,
+    });
     assert.instanceOf(res, ToIntArraySample);
-    assert.instanceOf(res.userIds, Array);
-    assert.lengthOf(res.userIds, 0);
+    assert.equal(res.userIds, null);
+    // assert.lengthOf(res.userIds, 0);
   });
 
   it('should ToIntArraySample 2', () => {

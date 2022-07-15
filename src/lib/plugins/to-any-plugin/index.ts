@@ -39,9 +39,10 @@ export class ToAnyPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): boolean {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): boolean {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     return values;
   }

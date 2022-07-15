@@ -51,10 +51,12 @@ export class ToMapPlugin extends TransformPlugin {
           validator: (value): boolean => value instanceof Map,
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
           rules.forEach((rule) => {
             switch (rule.type) {
@@ -102,6 +104,9 @@ export class ToMapPlugin extends TransformPlugin {
           });
         }
       }
+      if (nullable && fieldValue === null) {
+        return;
+      }
       // 验证
       validate(field, fieldValue, iValidators);
     }
@@ -110,9 +115,13 @@ export class ToMapPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: Map<PropertyKey, any>): Map<PropertyKey, any> {
-    values = this.beforeTransform(values);
+  public transform(
+    values: Map<PropertyKey, any>,
+    allValues: any
+  ): Map<PropertyKey, any> {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     const { elementType, metadata, field } = this.typeMirror;
     const typeMirror: TypeMirror = elementType();
@@ -140,7 +149,10 @@ export class ToMapPlugin extends TransformPlugin {
         }
 
         try {
-          newValue.set(key, this.transformer.transform(newTypeMirror, value));
+          newValue.set(
+            key,
+            this.transformer.transform(newTypeMirror, value, values)
+          );
         } catch (e) {
           if (e instanceof ValidateException) {
             exceptions.push(e);

@@ -51,12 +51,13 @@ export class ToSetPlugin extends TransformPlugin {
           validator: (value): boolean => value instanceof Set,
         },
       ];
+      let nullable = false;
       // 设置手动添加的规则
       if (metadata) {
         const { options } = metadata;
         if (options) {
+          nullable = !!options.nullable;
           const rules = TypedMetadata.mergeRule(options.rules || []);
-
           rules.forEach((rule) => {
             switch (rule.type) {
               case 'length':
@@ -102,6 +103,9 @@ export class ToSetPlugin extends TransformPlugin {
           });
         }
       }
+      if (nullable && fieldValue === null) {
+        return;
+      }
       // 验证
       validate(field, fieldValue, iValidators);
     }
@@ -110,9 +114,10 @@ export class ToSetPlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: any): any[] {
-    values = this.beforeTransform(values);
+  public transform(values: any, allValues: any): any[] {
+    values = this.beforeTransform(values, allValues);
     const originValues = values;
     this.validator(values);
     const { elementType, metadata, field } = this.typeMirror;
@@ -141,7 +146,7 @@ export class ToSetPlugin extends TransformPlugin {
           }
 
           try {
-            return this.transformer.transform(newTypeMirror, x);
+            return this.transformer.transform(newTypeMirror, x, values);
           } catch (e) {
             if (e instanceof ValidateException) {
               exceptions.push(e);

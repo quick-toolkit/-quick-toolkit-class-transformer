@@ -44,7 +44,7 @@ export class ToPromisePlugin extends TransformPlugin {
     // 验证必须
     this.validateRequired(fieldValue);
     if (fieldValue !== undefined) {
-      const { field } = this.typeMirror;
+      const { field, metadata } = this.typeMirror;
       // 先验证类型 系统规则
       const iValidators: IValidator[] = [
         {
@@ -52,6 +52,14 @@ export class ToPromisePlugin extends TransformPlugin {
           validator: (value): boolean => Utils.isPromise(value),
         },
       ];
+      if (
+        metadata &&
+        metadata.options &&
+        metadata.options.nullable &&
+        fieldValue === null
+      ) {
+        return;
+      }
       // 验证
       validate(field, fieldValue, iValidators);
     }
@@ -60,9 +68,10 @@ export class ToPromisePlugin extends TransformPlugin {
   /**
    * 转换成实例
    * @param values
+   * @param allValues
    */
-  public transform(values: Promise<any>): Promise<any> {
-    values = this.beforeTransform(values);
+  public transform(values: Promise<any>, allValues: any): Promise<any> {
+    values = this.beforeTransform(values, allValues);
     this.validator(values);
     const { elementType, metadata, field } = this.typeMirror;
     const typeMirror: TypeMirror = elementType();
@@ -85,7 +94,7 @@ export class ToPromisePlugin extends TransformPlugin {
         typeMirror.field = field;
         typeMirror.parent = this.typeMirror;
         values
-          .then((res) => this.transformer.transform(typeMirror, res))
+          .then((res) => this.transformer.transform(typeMirror, res, values))
           .catch((err) => reject(err));
       });
     }
