@@ -76,8 +76,7 @@ export class ToObjectPlugin extends TransformPlugin {
     const fieldExceptions: ValidateExceptionFields = {};
     const { typeMirror } = this;
     const type = typeMirror.type();
-    const allProperties =
-      ClassMirror.reflect(type).getAllProperties(PropertyMirror);
+    const allProperties = ClassMirror.reflect(type).getAllProperties();
     const newInstance = this.transformer.newInstance(type);
 
     // 循环所有成员
