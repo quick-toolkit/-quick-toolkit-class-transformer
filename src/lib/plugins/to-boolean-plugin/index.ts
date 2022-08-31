@@ -49,7 +49,10 @@ export class ToBooleanPlugin extends TransformPlugin {
         {
           type: 'Boolean',
           validator: (values: any): boolean =>
-            values instanceof Boolean || typeof values === 'boolean',
+            values instanceof Boolean ||
+            typeof values === 'boolean' ||
+            values === 'true' ||
+            values === 'false',
         },
       ]);
     }
