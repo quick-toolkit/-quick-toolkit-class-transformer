@@ -304,6 +304,10 @@ export type Rule =
 
 export interface TypedMetadataOptions<T = any> {
   /**
+   * 严格转换类型 当值为null或者undefined，为true时会被严格转换为指定的类型
+   */
+  strict?: boolean;
+  /**
    * 字段别名 转换时如果优先从别名字段取值
    */
   alias?: string;

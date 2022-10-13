@@ -73,7 +73,8 @@ var Utils = (function () {
                 });
             }));
     };
-    Utils.toNumber = function (value) {
+    Utils.toNumber = function (value, strict) {
+        if (strict === void 0) { strict = false; }
         if (typeof value === 'number') {
             return value;
         }
@@ -84,17 +85,30 @@ var Utils = (function () {
             /^0x[a-fA-F0-9]+?$/i.test(value)) {
             return Number(value);
         }
+        if (value === undefined || value === null) {
+            if (strict) {
+                return NaN;
+            }
+            return value;
+        }
     };
-    Utils.toBoolean = function (value) {
+    Utils.toBoolean = function (value, strict) {
+        if (strict === void 0) { strict = false; }
         if (/^true$/.test(value)) {
             return true;
         }
         if (/^false$/.test(value)) {
             return false;
         }
+        if (value === null || value === undefined) {
+            if (!strict) {
+                return value;
+            }
+        }
         return Boolean(value);
     };
-    Utils.toString = function (value) {
+    Utils.toString = function (value, strict) {
+        if (strict === void 0) { strict = false; }
         if (typeof value === 'string') {
             return value;
         }
@@ -102,11 +116,15 @@ var Utils = (function () {
             return value.toString();
         }
         if (value === null || value === undefined) {
+            if (strict) {
+                return value;
+            }
             return '';
         }
         return String(value);
     };
-    Utils.toDate = function (value) {
+    Utils.toDate = function (value, strict) {
+        if (strict === void 0) { strict = false; }
         if (moment_1.default.isMoment(value)) {
             return value.toDate();
         }
@@ -115,6 +133,12 @@ var Utils = (function () {
             value instanceof String ||
             value instanceof Number) {
             return new Date(value.toString());
+        }
+        if (value === undefined || value === null) {
+            if (strict) {
+                return new Date('');
+            }
+            return value;
         }
     };
     Utils.toFunction = function (value) {

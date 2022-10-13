@@ -126,6 +126,10 @@ export class ToNumberPlugin extends TransformPlugin {
   public transform(values: any, allValues: any): number | undefined {
     values = this.beforeTransform(values, allValues);
     this.validator(values);
+    const { metadata } = this.typeMirror;
+    if (metadata && metadata.options) {
+      return Utils.toNumber(values, metadata.options.strict);
+    }
     return Utils.toNumber(values);
   }
 }

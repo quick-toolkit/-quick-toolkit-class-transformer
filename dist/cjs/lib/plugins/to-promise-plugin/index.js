@@ -49,6 +49,11 @@ var ToPromisePlugin = (function (_super) {
         values = this.beforeTransform(values, allValues);
         this.validator(values);
         var _a = this.typeMirror, elementType = _a.elementType, metadata = _a.metadata, field = _a.field;
+        if (values === undefined || values === null) {
+            if (metadata && metadata.options && metadata.options.strict !== true) {
+                return values;
+            }
+        }
         var typeMirror = elementType();
         var exceptions = [];
         var fieldExceptions = {};

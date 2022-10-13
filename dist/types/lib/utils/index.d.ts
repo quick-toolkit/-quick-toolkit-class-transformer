@@ -39,18 +39,21 @@ export declare class Utils {
     /**
      * 转换为数字
      * @param value
+     * @param strict
      */
-    static toNumber: (value: any) => number | undefined;
+    static toNumber: (value: any, strict?: boolean) => number | undefined;
     /**
      * 转换为boolean值
      * @param value
+     * @param strict
      */
-    static toBoolean: (value: any) => boolean;
+    static toBoolean: (value: any, strict?: boolean) => boolean;
     /**
      * 转换为字符串
      * @param value
+     * @param strict
      */
-    static toString: (value: any) => string;
+    static toString: (value: any, strict?: boolean) => string;
     /**
      * 转换为JSON
      * @param value
@@ -69,8 +72,9 @@ export declare class Utils {
     /**
      * 转换日期
      * @param value
+     * @param strict
      */
-    static toDate: (value: any) => Date | undefined;
+    static toDate: (value: any, strict?: boolean) => Date | undefined;
     /**
      * 转换为函数
      * @param value

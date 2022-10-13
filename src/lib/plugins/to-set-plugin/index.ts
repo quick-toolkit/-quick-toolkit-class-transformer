@@ -121,6 +121,11 @@ export class ToSetPlugin extends TransformPlugin {
     const originValues = values;
     this.validator(values);
     const { elementType, metadata, field } = this.typeMirror;
+    if (values === undefined || values === null) {
+      if (metadata && metadata.options && metadata.options.strict !== true) {
+        return values;
+      }
+    }
     const typeMirror: TypeMirror = elementType();
     const exceptions: ValidateException[] = [];
     const fieldExceptions: ValidateExceptionFields = {};

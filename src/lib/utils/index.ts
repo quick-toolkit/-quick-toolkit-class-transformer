@@ -60,27 +60,37 @@ export class Utils {
   /**
    * 转换为数字
    * @param value
+   * @param strict
    */
-  public static toNumber = (value: any): number | undefined => {
+  public static toNumber = (value: any, strict = false): number | undefined => {
     if (typeof value === 'number') {
       return value;
     }
     if (value instanceof Number) {
       return Number(value);
     }
+
     if (
       /^[0-9]+(\.?[0-9]+)?$/.test(value) ||
       /^0x[a-fA-F0-9]+?$/i.test(value)
     ) {
       return Number(value);
     }
+
+    if (value === undefined || value === null) {
+      if (strict) {
+        return NaN;
+      }
+      return value;
+    }
   };
 
   /**
    * 转换为boolean值
    * @param value
+   * @param strict
    */
-  public static toBoolean = (value: any): boolean => {
+  public static toBoolean = (value: any, strict = false): boolean => {
     if (/^true$/.test(value)) {
       return true;
     }
@@ -88,14 +98,22 @@ export class Utils {
     if (/^false$/.test(value)) {
       return false;
     }
+
+    if (value === null || value === undefined) {
+      if (!strict) {
+        return value;
+      }
+    }
+
     return Boolean(value);
   };
 
   /**
    * 转换为字符串
    * @param value
+   * @param strict
    */
-  public static toString = (value: any): string => {
+  public static toString = (value: any, strict = false): string => {
     if (typeof value === 'string') {
       return value;
     }
@@ -105,6 +123,9 @@ export class Utils {
     }
 
     if (value === null || value === undefined) {
+      if (strict) {
+        return value;
+      }
       return '';
     }
 
@@ -162,8 +183,9 @@ export class Utils {
   /**
    * 转换日期
    * @param value
+   * @param strict
    */
-  public static toDate = (value: any): Date | undefined => {
+  public static toDate = (value: any, strict = false): Date | undefined => {
     if (moment.isMoment(value)) {
       return value.toDate();
     }
@@ -174,6 +196,13 @@ export class Utils {
       value instanceof Number
     ) {
       return new Date(value.toString());
+    }
+
+    if (value === undefined || value === null) {
+      if (strict) {
+        return new Date('');
+      }
+      return value;
     }
   };
 

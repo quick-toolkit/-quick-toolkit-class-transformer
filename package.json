@@ -1,6 +1,6 @@
 {
   "name": "@quick-toolkit/class-transformer",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "The class-transformer is used to convert a plain object to a class instance.",
   "main": "dist/cjs",
   "types": "dist/types",

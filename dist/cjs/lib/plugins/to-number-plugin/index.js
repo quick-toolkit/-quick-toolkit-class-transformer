@@ -113,6 +113,10 @@ var ToNumberPlugin = (function (_super) {
     ToNumberPlugin.prototype.transform = function (values, allValues) {
         values = this.beforeTransform(values, allValues);
         this.validator(values);
+        var metadata = this.typeMirror.metadata;
+        if (metadata && metadata.options) {
+            return utils_1.Utils.toNumber(values, metadata.options.strict);
+        }
         return utils_1.Utils.toNumber(values);
     };
     ToNumberPlugin.type = Number;

@@ -124,6 +124,11 @@ export class ToMapPlugin extends TransformPlugin {
     values = this.beforeTransform(values, allValues);
     this.validator(values);
     const { elementType, metadata, field } = this.typeMirror;
+    if (values === undefined || values === null) {
+      if (metadata && metadata.options && metadata.options.strict !== true) {
+        return values;
+      }
+    }
     const typeMirror: TypeMirror = elementType();
     const exceptions: ValidateException[] = [];
     const fieldExceptions: ValidateExceptionFields = {};

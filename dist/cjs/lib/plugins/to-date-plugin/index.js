@@ -47,6 +47,10 @@ var ToDatePlugin = (function (_super) {
     ToDatePlugin.prototype.transform = function (values, allValues) {
         values = this.beforeTransform(values, allValues);
         this.validator(values);
+        var metadata = this.typeMirror.metadata;
+        if (metadata && metadata.options) {
+            return utils_1.Utils.toDate(values, metadata.options.strict);
+        }
         return utils_1.Utils.toDate(values);
     };
     ToDatePlugin.type = Date;

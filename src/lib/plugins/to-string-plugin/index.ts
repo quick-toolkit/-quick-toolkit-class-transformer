@@ -453,6 +453,10 @@ export class ToStringPlugin extends TransformPlugin {
   public transform(values: any, allValues: any): string {
     values = this.beforeTransform(values, allValues);
     this.validator(values);
-    return Utils.toString(values);
+    const { metadata } = this.typeMirror;
+    if (metadata && metadata.options) {
+      return Utils.toString(values, metadata.options.strict);
+    }
+    return Utils.toString(values, false);
   }
 }

@@ -448,7 +448,11 @@ var ToStringPlugin = (function (_super) {
     ToStringPlugin.prototype.transform = function (values, allValues) {
         values = this.beforeTransform(values, allValues);
         this.validator(values);
-        return utils_1.Utils.toString(values);
+        var metadata = this.typeMirror.metadata;
+        if (metadata && metadata.options) {
+            return utils_1.Utils.toString(values, metadata.options.strict);
+        }
+        return utils_1.Utils.toString(values, false);
     };
     ToStringPlugin.type = String;
     return ToStringPlugin;

@@ -66,6 +66,10 @@ export class ToBooleanPlugin extends TransformPlugin {
   public transform(values: any, allValues: any): boolean {
     values = this.beforeTransform(values, allValues);
     this.validator(values);
+    const { metadata } = this.typeMirror;
+    if (metadata && metadata.options) {
+      return Utils.toBoolean(values, metadata.options.strict);
+    }
     return Utils.toBoolean(values);
   }
 }

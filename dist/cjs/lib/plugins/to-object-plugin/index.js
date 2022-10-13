@@ -52,6 +52,12 @@ var ToObjectPlugin = (function (_super) {
         var exceptions = [];
         var fieldExceptions = {};
         var typeMirror = this.typeMirror;
+        var metadata = typeMirror.metadata;
+        if (values === undefined || values === null) {
+            if (metadata && metadata.options && metadata.options.strict !== true) {
+                return values;
+            }
+        }
         var type = typeMirror.type();
         var allProperties = class_mirror_1.ClassMirror.reflect(type).getAllProperties();
         var newInstance = this.transformer.newInstance(type);

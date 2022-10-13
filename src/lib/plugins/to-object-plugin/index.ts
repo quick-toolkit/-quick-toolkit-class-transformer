@@ -21,11 +21,7 @@
  */
 
 import { TransformPlugin } from '../../transform-plugin';
-import {
-  ClassConstructor,
-  ClassMirror,
-  PropertyMirror,
-} from '@quick-toolkit/class-mirror';
+import { ClassConstructor, ClassMirror } from '@quick-toolkit/class-mirror';
 import { TypedDecorate } from '../../typed-decorate';
 import { Utils } from '../../utils';
 import { ValidateException } from '../../exceptions';
@@ -75,6 +71,12 @@ export class ToObjectPlugin extends TransformPlugin {
     const exceptions: ValidateException[] = [];
     const fieldExceptions: ValidateExceptionFields = {};
     const { typeMirror } = this;
+    const { metadata } = typeMirror;
+    if (values === undefined || values === null) {
+      if (metadata && metadata.options && metadata.options.strict !== true) {
+        return values;
+      }
+    }
     const type = typeMirror.type();
     const allProperties = ClassMirror.reflect(type).getAllProperties();
     const newInstance = this.transformer.newInstance(type);
