@@ -124,9 +124,9 @@ export class Utils {
 
     if (value === null || value === undefined) {
       if (strict) {
-        return value;
+        return '';
       }
-      return '';
+      return value;
     }
 
     return String(value);
