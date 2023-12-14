@@ -42,7 +42,7 @@ export declare class TypeMirror<T extends object = any, E extends TypeMirror | u
      * @param type
      * @param elementType
      */
-    static from: <T_1 extends ClassConstructor<any>>(type: () => T_1, elementType?: (() => TypeMirror) | undefined) => TypeMirror;
+    static from: <T_1 extends ClassConstructor<any>>(type: () => T_1, elementType?: () => TypeMirror) => TypeMirror;
     /**
      * set mirror
      * @param type
@@ -75,4 +75,4 @@ export interface WhereType {
     subType: ClassConstructor;
     wheres: Where[];
 }
-export declare type Where = Record<PropertyKey, any>;
+export type Where = Record<PropertyKey, any>;

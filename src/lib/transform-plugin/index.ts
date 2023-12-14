@@ -83,9 +83,6 @@ export abstract class TransformPlugin {
    * @param allValues
    */
   public beforeTransform<T = any>(fieldValue: any, allValues: any): T {
-    if (fieldValue === undefined) {
-      return fieldValue;
-    }
     const { metadata, field } = this.typeMirror;
     try {
       if (metadata) {

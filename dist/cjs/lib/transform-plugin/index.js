@@ -30,9 +30,6 @@ var TransformPlugin = (function () {
         }
     };
     TransformPlugin.prototype.beforeTransform = function (fieldValue, allValues) {
-        if (fieldValue === undefined) {
-            return fieldValue;
-        }
         var _a = this.typeMirror, metadata = _a.metadata, field = _a.field;
         try {
             if (metadata) {

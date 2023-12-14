@@ -356,7 +356,7 @@
 
 //! locale : Arabic (Kuwait) [ar-kw]
 
-//! locale : Arabic (Lybia) [ar-ly]
+//! locale : Arabic (Libya) [ar-ly]
 
 //! locale : Arabic (Morocco) [ar-ma]
 
@@ -628,4 +628,4 @@
 
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
-//! version : 2.29.1
+//! version : 2.29.4

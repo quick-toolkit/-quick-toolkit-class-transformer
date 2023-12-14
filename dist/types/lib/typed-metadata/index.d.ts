@@ -189,7 +189,7 @@ export interface UUIDRule extends RuleType {
     type: 'UUID';
     version?: UUIDVersion;
 }
-export declare type Rule = UUIDRule | UrlRule | RgbColorRule | NumericRule | PassportNumberRule | MACAddressRule | IdentityCardRule | ISSNRule | IPRule | FQDNRule | DecimalRule | DateRule | CurrencyRule | EnumRule | LengthRule | EmailRule | RangeRule | MobilePhoneRule | FloatRule | IntegerRule | StringRule;
+export type Rule = UUIDRule | UrlRule | RgbColorRule | NumericRule | PassportNumberRule | MACAddressRule | IdentityCardRule | ISSNRule | IPRule | FQDNRule | DecimalRule | DateRule | CurrencyRule | EnumRule | LengthRule | EmailRule | RangeRule | MobilePhoneRule | FloatRule | IntegerRule | StringRule;
 export interface TypedMetadataOptions<T = any> {
     /**
      * 严格转换类型 当值为null或者undefined，为true时会被严格转换为指定的类型

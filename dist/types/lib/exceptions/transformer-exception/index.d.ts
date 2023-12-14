@@ -46,4 +46,4 @@ export interface TransformerExceptionOps extends ValidateExceptionOptions {
     exceptions: ValidateException[];
     fieldExceptions: ValidateExceptionFields;
 }
-export declare type ValidateExceptionFields = Record<PropertyKey, ValidateException[]>;
+export type ValidateExceptionFields = Record<PropertyKey, ValidateException[]>;
